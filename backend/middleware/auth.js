@@ -15,7 +15,7 @@ exports.isAuthenticated = async (req, res, next) => {
         if (!user) {
             return res.status(401).json({
                 status: "error",
-                message: "You are not logged in",
+                message: "You are not logged in as user",
             });
         }
         req.user = user;
