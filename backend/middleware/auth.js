@@ -3,7 +3,8 @@ const User = require("../models/User");
 
 exports.isAuthenticated = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
+        // const token = req.cookies.token;
+        const token = await req.headers.authorization.split(" ")[1];
         if (!token) {
             return res.status(401).json({
                 status: "error",
