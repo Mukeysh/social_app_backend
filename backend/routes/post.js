@@ -20,5 +20,10 @@ router.get("/posts/", isAuthenticated, followingPosts);
 router.post("/add/comment/:id", isAuthenticated, addComment);
 router.post("/update/comment/:id/:commentId", isAuthenticated, updateComment);
 router.delete("/delete/comment/:id/:commentId", isAuthenticated, deleteComment);
+router.get("/user/posts", isAuthenticated, userPosts);
+// router.get("/user/posts/:id", isAuthenticated, userPost);
+router.get("/all/posts", isAuthenticated, allPosts);
+router.get("/single/post/:id", isAuthenticated, singlePost);
+router.get("/all/posts/except/user", isAuthenticated, allPostsExceptUser);
 
 module.exports = router;

@@ -2,8 +2,8 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 exports.createPost = async (req, res) => {
-    console.log(req);
     try {
+        console.log(req.body.location);
         const newPostData = {
             caption: req.body.caption,
             image: {
@@ -11,6 +11,10 @@ exports.createPost = async (req, res) => {
                 public_id: req.body.image.public_id,
             },
             owner: req.user._id,
+            location: {
+                lat: req.body.location.lat,
+                lng: req.body.location.lng,
+            },
         };
 
         const post = await Post.create(newPostData);
@@ -248,6 +252,110 @@ exports.deleteComment = async (req, res) => {
         res.status(200).json({
             status: "success",
             post,
+        });
+    } catch (err) {
+        res.json({
+            status: "error",
+            message: err.message,
+        });
+    }
+};
+
+//get logged in user post
+exports.userPosts = async (req, res) => {
+    try {
+        const posts = await Post.find({
+            owner: req.user._id,
+        });
+        res.status(200).json({
+            status: "success",
+            posts,
+        });
+    } catch (err) {
+        res.json({
+            status: "error",
+            message: err.message,
+        });
+    }
+};
+
+//get all posts
+exports.allPosts = async (req, res) => {
+    try {
+        const posts = await Post.find();
+        res.status(200).json({
+            status: "success",
+            posts,
+        });
+    } catch (err) {
+        res.json({
+            status: "error",
+            message: err.message,
+        });
+    }
+};
+
+//get single post
+exports.singlePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({
+                status: "error",
+                message: "Post not found",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            post,
+        });
+    } catch (err) {
+        res.json({
+            status: "error",
+            message: err.message,
+        });
+    }
+};
+
+//get logged in user single post
+exports.userPost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({
+                status: "error",
+                message: "Post not found",
+            });
+        }
+        if (post.owner.toString() !== req.user._id.toString()) {
+            return res.status(401).json({
+                status: "error",
+                message: "You are not authorized to view this post",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            post,
+        });
+    } catch (err) {
+        res.json({
+            status: "error",
+            message: err.message,
+        });
+    }
+};
+
+//get all posts of except logged in user
+exports.allPostsExceptUser = async (req, res) => {
+    try {
+        const posts = await Post.find({
+            owner: {
+                $ne: req.user._id,
+            },
+        });
+        res.status(200).json({
+            status: "success",
+            posts,
         });
     } catch (err) {
         res.json({

@@ -15,7 +15,10 @@ const postSchema = new mongoose.Schema({
             ref: "user",
         },
     ],
-    location: { type: {type:String}, coordinates: [Number]},
+    location: {
+        lat: Number,
+        lng: Number,
+    },
     comments: [
         {
             user: {
