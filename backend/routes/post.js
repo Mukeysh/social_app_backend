@@ -9,6 +9,11 @@ const {
     addComment,
     updateComment,
     deleteComment,
+    userPosts,
+    userPost,
+    allPosts,
+    singlePost,
+    allPostsExceptUser,
 } = require("../controllers/post");
 const { isAuthenticated } = require("../middleware/auth");
 
