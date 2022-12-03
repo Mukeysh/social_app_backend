@@ -390,3 +390,26 @@ exports.resetPassword = async (req, res) => {
         });
     }
 };
+//get user name from user id
+exports.getUserName = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(400).json({
+                status: "error",
+                message: "user not found",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            data: {
+                name: user.name,
+            },
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message,
+        });
+    }
+}

@@ -7,12 +7,12 @@ const postSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
     },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user",
+            ref: "User",
         },
     ],
     location: {
@@ -23,7 +23,7 @@ const postSchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "user",
+                ref: "User",
             },
             comment: {
                 type: String,

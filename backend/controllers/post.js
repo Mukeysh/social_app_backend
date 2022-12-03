@@ -282,7 +282,7 @@ exports.userPosts = async (req, res) => {
 //get all posts
 exports.allPosts = async (req, res) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find({}).populate("owner");
         res.status(200).json({
             status: "success",
             posts,

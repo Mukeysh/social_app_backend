@@ -13,7 +13,7 @@ const {
     userPost,
     allPosts,
     singlePost,
-    allPostsExceptUser,
+    allPostsExceptUser
 } = require("../controllers/post");
 const { isAuthenticated } = require("../middleware/auth");
 
