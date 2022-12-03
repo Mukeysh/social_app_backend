@@ -298,7 +298,7 @@ exports.allPosts = async (req, res) => {
 //get single post
 exports.singlePost = async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id).populate("owner");
         if (!post) {
             return res.status(404).json({
                 status: "error",
