@@ -1,9 +1,13 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const cloudinary = require("cloudinary");
 
 exports.createPost = async (req, res) => {
     try {
-        console.log(req.body.location);
+        // const myCloud = await cloudinary.v2.uploader.upload(req.body.image,{
+        //     folder: "posts",
+            
+        // });
         const newPostData = {
             caption: req.body.caption,
             image: {
@@ -21,7 +25,7 @@ exports.createPost = async (req, res) => {
 
         const user = await User.findById(req.user._id);
 
-        user.posts.push(post._id);
+        user.posts.unshift(post._id);
 
         await user.save();
 
@@ -55,7 +59,7 @@ exports.deletePost = async (req, res) => {
                 message: "You are not authorized to delete this post",
             });
         }
-
+        await cloudinary.v2.uploader.destroy(post.image.public_id);
         await post.remove();
 
         const user = await User.findById(req.user._id);
