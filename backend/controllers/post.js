@@ -140,7 +140,9 @@ exports.followingPosts = async (req, res) => {
 };
 exports.updateCaption = async (req, res) => {
     try {
+        
         const post = await Post.findById(req.params.id);
+        //await cloudinary.v2.uploader.destroy(post.image.public_id);
         if (!post) {
             return res.status(404).json({
                 status: "error",
@@ -154,6 +156,7 @@ exports.updateCaption = async (req, res) => {
             });
         }
         post.caption = req.body.caption;
+        post.image = req.body.image;
         await post.save();
         res.status(200).json({
             status: "success",
