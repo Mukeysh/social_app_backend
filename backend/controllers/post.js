@@ -156,7 +156,8 @@ exports.updateCaption = async (req, res) => {
             });
         }
         post.caption = req.body.caption;
-        post.image = req.body.image;
+        post.image.url = req.body.image.url;
+        post.image.public_id = req.body.image.public_id;
         await post.save();
         res.status(200).json({
             status: "success",
